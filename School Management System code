@@ -1,0 +1,105 @@
+class Student:
+    """Represents a student in the school."""
+    def __init__(self, student_id, name, grade, marks):
+        self.student_id = student_id
+        self.name = name
+        self.grade = grade
+        self.marks = marks
+
+    def update_marks(self, new_marks):
+        """Update marks for the student."""
+        self.marks = new_marks
+
+    def __str__(self):
+        return f"ID: {self.student_id}, Name: {self.name}, Grade: {self.grade}, Marks: {self.marks}"
+
+
+class School:
+    """Handles school management."""
+    def __init__(self):
+        self.students = {}
+
+    def add_student(self):
+        """Add a new student."""
+        student_id = input("Enter Student ID: ")
+        if student_id in self.students:
+            print("Student ID already exists.")
+            return
+        name = input("Enter Student Name: ")
+        grade = input("Enter Student Grade: ")
+        marks = int(input("Enter Marks: "))
+        self.students[student_id] = Student(student_id, name, grade, marks)
+        print("Student added successfully.")
+
+    def update_student_marks(self):
+        """Update marks for an existing student."""
+        student_id = input("Enter Student ID: ")
+        student = self.students.get(student_id)
+        if not student:
+            print("Student not found.")
+            return
+        new_marks = int(input("Enter new marks: "))
+        student.update_marks(new_marks)
+        print("Marks updated successfully.")
+
+    def delete_student(self):
+        """Delete a student record."""
+        student_id = input("Enter Student ID to delete: ")
+        if student_id in self.students:
+            del self.students[student_id]
+            print("Student deleted successfully.")
+        else:
+            print("Student not found.")
+
+    def view_students(self):
+        """View all students."""
+        if not self.students:
+            print("No students found.")
+            return
+        print("\n=== Student Records ===")
+        for student in self.students.values():
+            print(student)
+
+    def generate_report(self):
+        """Generate a report for all students."""
+        if not self.students:
+            print("No students to report.")
+            return
+        total_students = len(self.students)
+        average_marks = sum(student.marks for student in self.students.values()) / total_students
+        print("\n=== School Report ===")
+        print(f"Total Students: {total_students}")
+        print(f"Average Marks: {average_marks:.2f}")
+
+
+def main():
+    school = School()
+    while True:
+        print("\n=== School Management System ===")
+        print("1. Add Student")
+        print("2. Update Student Marks")
+        print("3. Delete Student")
+        print("4. View All Students")
+        print("5. Generate Report")
+        print("6. Exit")
+        choice = input("Enter your choice: ")
+
+        if choice == "1":
+            school.add_student()
+        elif choice == "2":
+            school.update_student_marks()
+        elif choice == "3":
+            school.delete_student()
+        elif choice == "4":
+            school.view_students()
+        elif choice == "5":
+            school.generate_report()
+        elif choice == "6":
+            print("Exiting the system. Goodbye!")
+            break
+        else:
+            print("Invalid choice. Please try again.")
+
+
+if __name__ == "__main__":
+    main()
